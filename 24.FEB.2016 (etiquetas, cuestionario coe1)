@@ -1,0 +1,46 @@
+library (foreign)
+coe<-read.dbf("C:\\Users\\DANIELA\\Documents\\actuaria\\8\\series de tiempo\\COE1T215.dbf")
+
+
+coe$ent31<-as.numeric(as.character(coe$ENT))
+YUCATAN<-subset(coe,ent31==31)##utilizando solo informacion del estado de yucatan 
+View(table(coe$ent31))
+View(table(coe$P1))
+attach(YUCATAN)
+
+##ETIQUETAS
+YUCATAN$P1<-ordered(YUCATAN$P1,levels=c(1,2),labels=c("si trabajo", "no trabajo"))
+View(table(YUCATAN$P1))
+
+YUCATAN$P3L<-ordered(YUCATAN$P3L,levels=c("01","02","03","04","05","06","07","08","09","10","11","99"),
+                          labels=c("1 persona","2 a 5 personas","6 a 10 personas","11 a 15 personas",
+                                   "16 a 20 personas","21 a 30 personas ","31 a 50 personas",
+                                   "51 a 100 personas","101 a 250 personas",
+                                   "251 a 500 personas ","501y más","no sabe "))
+View(table(YUCATAN$P3L))
+
+YUCATAN$p51<-as.numeric(as.character(YUCATAN$P5))
+YUCATAN$p51<-ordered(YUCATAN$p51, levels=c(1,2,3,9),labels=c("si", "no trabajo la semana pasada",
+                                "no se encontro en esa situación","no sabe"))
+View(table(YUCATAN$p51)) 
+
+YUCATAN$P2E<- ordered(YUCATAN$P2E, levels=c("1","2","3","4","5","6","9"),labels=c("una persona temporalmente ausente de su
+actividad u oficio", "pensionado o jubilado de su empleo","estudiante","una persona que se dedica a los quehaceres de su","una persona con alguna limitación física o mental que le impide trabajar por el resto de su vida", "Otra condición", "No sabe")) 
+
+View(table(YUCATAN$P2E)) 
+                    
+#TABLAS SIMPLES 
+          table(YUCATAN$P3L,YUCATAN$P1)
+          table(YUCATAN$p51,YUCATAN$P1)
+          table(YUCATAN$P2E,YUCATAN$P1)
+          
+ require(questionr)
+#EXPANSION DE TABLAS          
+TABLA1<-wtd.table(YUCATAN$P3L,YUCATAN$P1,weights=YUCATAN$FAC)
+TABLA2<-wtd.table(YUCATAN$p51,YUCATAN$P1,weights=YUCATAN$FAC)
+TABLA3<-wtd.table(YUCATAN$P2E,YUCATAN$P1,weights=YUCATAN$FAC)
+
+# IMPRESION DE TABLAS 
+View(TABLA1)
+View(TABLA2)
+View(TABLA3)
