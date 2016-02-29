@@ -1,0 +1,87 @@
+## la opcion por defecto en cualquier funcion es indicar que no indica los na
+x<-NA
+x+1
+y<-c(x,3,5,x)
+mean(y, na.rm =TRUE)#calcula la media sin tomar en cuenta los na
+##operacion es que no se pueden acer 
+sqrt(-17)
+sqrt(-17+0i)#calcula el resultado y devuelve un numero complejo
+z<-5/0
+#asignamos un valor infinito
+exp(-x)
+#devueolve un valor cero 
+exp(x)-exp(x)## devuelce indeterminacion 
+
+
+######VECTORES
+v<-numeric()#almacena en v una estructura vacia del valor numerico
+##character() es un vector de caracteres vacio 
+v[3]<-17 #transforma componentes seran 3 na en un vector de longitud 3
+v
+x1<-logical(4) #inicializa un vector de longitud 4 cuyos elemntos son FALSE
+x1
+x4<-character(4)#inicializa un vector de caracteres de longitud 4
+x<-c(1:10)
+x<-as.character(x)#todas la entradas las cambia a caracter 
+nombre<-c("luis", "maria")#vector de caracter
+edad<-c(23,24)
+varon<-c(TRUE,FALSE);adult<-edad>18
+adult
+estatura<-c(1.77,1.64)
+estatura[2]
+#R tiene grandes facilidades para generar vectores de secuencias de numeros.
+#el operador mas usual es : desde:haasta desde)de uno. que genera una secuencia
+#(from, to, by, length).
+#existen funciones similares que tambien realizan los calculos 
+# rep()
+#?seq
+pi:1
+seq(0,1,length=10)
+seq(3)
+seq(1,5,by=0.5)
+-1:1/0
+rep(1:4,c(2,3,1,4)) #los tamaños deben de coincidir (4)
+sequence(c(2,3))
+
+##MUESTRAS
+x<-c(1:10)
+sample(x,3)
+sample(x)#permutacionesde los elementos x
+y<-sample(5:15,5)
+
+
+##vector de nombre
+frutos<-c(55,10,1,20)
+names(frutos)<-c("pera","banan","melon","naranja")
+postre<-frutos[c("pera", "melon")]
+postre
+
+##matrices
+matrix()
+x<-c(1:6)
+dim(x)<-c(2,3)
+dimnames<-list(c("fila 1","fila 2"),c("col 1", "col 2", "col 3"))
+matriz1<-(matrix(1:12, ncol=3,byrow=TRUE,
+                 dimnames=list(letters[1:4],LETTERS[1:3])))
+matriz1[1,1]
+matriz1[,c(2,3)]#[renglones,columnas]
+##Funciones utiles para matrices 
+#ncol...numero de columna
+#nrow... numero de filas
+##t(x)...transpuesta x
+#diag(x)...extrae diagonal de la matrizo crea un matriz diagonal 
+#col(x)... crea un matriz con elemnto ij igual al valor j
+#row...crea una matriz con elemnto ij igual al valor i
+#cbind... combina secuencias de vectores/ matrices por columnas
+#rbind ...combina secuencias de vectores/matrices por renglores
+
+
+############EJEMPLO
+x<-matrix(1:6,2,3)
+x
+y<-matrix(1:6,3,2)
+y[3,];y[3]
+ncol(x);nrow(y)
+t(x)
+cbind(1,x)##primera columna genera unos y despues la matriz x
+cbind(1:3,1:6)
