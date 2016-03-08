@@ -1,0 +1,43 @@
+AirPassengers
+data("AirPassengers")##se usara la base de datos precargada de la aerolinea
+panam<-AirPassengers
+class(panam)
+start(panam);end(panam);frequency(panam)##cuando inicia, cuando acaba 
+            #y el tiempo de la frecuencia de los datos de la base
+panam
+ts()## funcion para declarar una base de datos como serie de tiempo 
+plot(panam, main="Número de pasajeros aereos en Estados Unidos 1949-1960",ylab="pasajeros",xlab="años")
+plot (aggregate(panam))##linea de tendencia 
+layout(1:2)##salen dos graficas en una 
+
+pp<-ts(base1,start=c(1998,1),freq=4)##nombre d la base, cuando inicia, el periodo, frecuencia anual 4=trimestre
+
+##ejercicio
+###1)generar un data frame con la tasa de desocupacion que inicia en el primer trimestre de 2005
+##tasa desocupacion 3.4,4.8,3.3,5.6,3.2,2.9,1.9,2.8,6.0,4.3,2.2
+#2)convertirla en serie de tiempo y graficar la ST y la tendencia 
+##3)obtener un pdf, .jpg .tiff.png con las dos graficas en una misma imagen
+
+###11111111111
+datos<-c(3.4,4.8,3.3,5.6,3.2,2.9,1.9,2.8,6.0,4.3,2.2)
+df<-data.frame(datos)
+###22222222222
+st<-ts(df,start = c(2005,1),freq=4)
+class(st)
+x11()
+layout(1:2)
+plot(st, main="Tasa de desocupación trimestral desde 2005",xlab="Trimestre",ylab="Tasa")
+plot(aggregate(st),main="Tendencia de la tasa de desocupación trimestral desde 2005",xlab="Trimestre",ylab="Tasa")
+###3333333333
+jpeg("TASADESOCUPACION.jpeg")
+layout(1:2)
+plot(st,main="Tasa de desocupación trimestral desde 2005",xlab="Trimestre",ylab="Tasa")
+plot(aggregate (st),main="Tendencia de la tasa de desocupación trimestral desde 2005",xlab="Trimestre",ylab="Tasa",col="dark red")
+dev.off(
+  
+  pdf("TASADESOCUPACION.pdf")
+ layout(1:2) 
+  plot(st,main="Tasa de desocupación trimestral desde 2005",xlab="Trimestre",ylab="Tasa")
+  plot(aggregate(st),main="Tasa de desocupación trimestral",xlab="Trimestre",ylab="Tasa")
+  dev.off()  
+  
