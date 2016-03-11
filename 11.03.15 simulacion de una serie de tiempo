@@ -1,0 +1,25 @@
+###simulacion de una serie de tiempo 
+##vamos a simular un indicador con aleatorio (sample)
+# va a simular datos de 100 a 120 (son 15 datos) sin remplazo
+pob<-sample(100:120,15,replace=F)
+##la convertimos a series de tiempo 
+pobts<-ts(pob,frequency=1,start=(2000))
+plot(pobts,main="Población",xlab="Años",ylab="Población (en millones)")
+plot(aggregate(pobts),main="Población",xlab="Años",ylab="Población (en millones)")
+
+
+###bajar del inegi 
+### importamos el archivo de excel gusdado como cvs (delimitado por comas)
+ocu<-ts(read.csv(("C:\\Users\\DANIELA\\Desktop\\ocupa.csv"),header=F), frequency=4,start=2005)
+plot(ocu, main="Poblacion ocupada", xlab="Años",ylab="indice")
+plot(aggregate(ocu))
+
+###simular la tasa de desocupacion 3 a 8%, 2005, 40 datos, trimestral 
+##bajar del INEGI LA TASA DE DESOCUPACION importar en r y se comparan 
+
+tdes<-sample(3:8,44,replace=T)
+tdests<-ts(tdes,frequency = 4,start = 2005)
+tdesots<-ts(read.csv(("C:\\Users\\DANIELA\\Desktop\\tasadesocup.csv"),header=F), frequency=4,start=2005)
+plot(tdests, main="Tasa de desocupación", xlab="Años",ylab="tasa")
+plot(tdesots,main="Tasa de desocupación", xlab="Años",ylab="tasa")
+plot(cbind(tdests,tdesots))###para imprimir las dos graficas 
