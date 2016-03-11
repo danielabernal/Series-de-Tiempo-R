@@ -22,4 +22,4 @@ tdests<-ts(tdes,frequency = 4,start = 2005)
 tdesots<-ts(read.csv(("C:\\Users\\DANIELA\\Desktop\\tasadesocup.csv"),header=F), frequency=4,start=2005)
 plot(tdests, main="Tasa de desocupación", xlab="Años",ylab="tasa")
 plot(tdesots,main="Tasa de desocupación", xlab="Años",ylab="tasa")
-plot(cbind(tdests,tdesots))###para imprimir las dos graficas 
+plot(cbind(tdests,tdesots), col="pink")###para imprimir las dos graficas 
