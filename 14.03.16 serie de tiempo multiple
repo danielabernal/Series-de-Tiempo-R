@@ -1,0 +1,33 @@
+ANA ELVIA MARTINEZ GOMEZ
+JESSICA DANIELA BERNAL VELAZQUEZ 
+
+indi3<-ts(read.csv(("C:\\Users\\DANIELA\\Desktop\\indicadores.csv"),header=T), frequency=4,start=2005)
+class(indi3)
+desoparcial<-ts(indi3[,1],start=2005,freq=4)## de la base indi3, la columa 1 la hace serie de tiempo 
+asala<-ts(indi3[,2],start=2005,freq=4)##tasa de trabajo asalariados
+til1<-ts(indi3[,3],start=2005,freq=4)##tasa de informalidad laboral
+seriemultiple<-ts.intersect(desoparcial,asala,til1)##declarar una serie de tiempo multiple 
+plot(seriemultiple, main="Serie de tiempo multiple de Toluca", xlab="años", ylab="Numero de personl", col="red")
+####Separar la serie de tiempo dependiendo el analisis
+
+seriemultiple02.07<-window(seriemultiple,start=c(2005,1), end=c(2009,4))
+seriemultiple10.15<-window(seriemultiple,start=c(2010,1), end=c(2015,4))
+plot(seriemultiple02.07,main="serie de tiempo multiple de toluca  2005-2009", xlab="años", col=789)
+plot(seriemultiple10.15,main="serie de tiempo multiple de toluca  2010-2015", xlab="años", col=622)
+    ##para saber donde empieza y donde termina 
+start (seriemultiple)
+end (seriemultiple)
+
+
+##########################TRABAJO EN CLASE###################################
+ocuinformal<-ts(read.csv(("C:\\Users\\DANIELA\\Desktop\\ocuinformal.csv"),header=T), frequency=4,start=2005)
+tosi1<-ts(ocuinformal[,1],start=2005,freq=4)
+tosi2<-ts(ocuinformal[,2],start=2005,freq=4)
+til2<-ts(ocuinformal[,3],start=2005,freq=4)
+layout(1:3)
+plot(tosi1,main="Tasa de Ocupación en el Sector Informal 1 Mujeres (Monterrey)", xlab="años", ylab="TOSI1", col=78)
+plot(tosi2,main="Tasa de Ocupación en el Sector Informal 2 Mujeres (Monterrey)", xlab="años", ylab="TOSI2", col=568)
+plot(til2,main="Tasa de Informaidad laboral Mujeres (Monterrey)", xlab="años", ylab="TIL2", col=788)
+
+sermult<-ts.intersect(tosi1, tosi2, til2)
+plot(sermult,main="la ocupacion informal de Mujeres en Monterrey", xlab="años")
