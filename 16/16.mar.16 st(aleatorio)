@@ -1,0 +1,50 @@
+
+dato1<-sample(5:8,60,replace=T)##NUMERO DE PROFESIONISTAS
+dato2<-sample(0:5,60,replace = T)##CRECIMIENTO DEL PIB
+dato3<-sample(40:60, 60, replace=T)## % DE OCUPADOS 
+dato4<-sample(3:8,60,replace=T)## % DE DESOCUPADOS 
+
+##HACER UN DATA FRAME 
+df<-data.frame(dato1,dato2,dato3,dato4)
+
+##PRIMEROs 12 Y ULTIMOS DOCE DATOS 
+df[c(1:12,49:60),seq(1:4)]
+
+##CONVERTIR EN SERIES DE TIEMPO DE 2010, DATOS MENSUALES
+st<-ts(df,frequency = 12,start = 2010)##serie de tiempo de todo el data frame 
+
+##series de tiempo especificas
+st1<-ts(df[,1],frequency = 12,start = 2010)
+st2<-ts(df[,2],frequency = 12,start = 2010)
+st3<-ts(df[,3],frequency = 12,start = 2010)
+st4<-ts(df[,4],frequency = 12,start = 2010)
+
+plot(st, main="Serie de tiempo")
+##grafica las 2 series
+layout(1:2)
+plot(st1, main="Numero de profesionistas", xlab="Año", ylab="No. profesionistas",col=45)
+plot(st3, main="Porcentaje de ocupados", xlab="Año", ylab="%",col=53)
+layout(1:2)
+plot(st2, main="Crecimiento del PIB", xlab="Año", ylab="CRECIMIENTO",col=69)
+plot(st4, main="Porcentaje desocupados", xlab="Año", ylab="%",col=82)
+##graficar las 4 series 
+layout(1:4)
+plot(st1, main="Numero de profesionistas", xlab="Año", ylab="No. profesionistas",col=45)
+plot(st2, main="Crecimiento del PIB", xlab="Año", ylab="CRECIMIENTO",col=69)
+plot(st3, main="Porcentaje de ocupados", xlab="Año", ylab="%",col=53)
+plot(st4, main="Porcentaje desocupados", xlab="Año", ylab="%",col=82)
+ ##otra forma
+plot(st, main="Series de tiempo") 
+
+##crear serie de tiempo multiple
+serimult<-ts.intersect(st1, st2, st3,st4)
+plot(serimult, main="Serie de tiempo mult", xlab="Año")
+
+##crear la vista del ultimo año 
+sm2014<-window(serimult, start=c(2014,1), end=c(2014,12))
+plot(sm2014, main="Serie de tiempo multiple")
+###a traves de las series podemos observar variaciones estacionales o fluctuaciones 
+##de periodificación inferior a un año y reconocibles todos los años, los picos más
+## pronunciados se presentan en en el tercer mes en las series de porcentaje de ocupados y dessocupads
+##(serie 3 y 4 respectivamente )
+##en la serie 2 (crecimiento dle PIB) se observa que la fluctuacion 
