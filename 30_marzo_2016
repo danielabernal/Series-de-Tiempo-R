@@ -1,0 +1,69 @@
+#la descomposicion de la serie de tiempo nos permite conocer la estacionalidad y la aleatoriedad
+
+IPC<-ts(read.csv(("C:\\Users\\DANIELA\\Desktop\\ipc.csv"),header = T), frequency = 252,start = 2005)
+#para descomponer una serie de tiempo se utiliza la funcion descompose()
+#para descomponer una serie de tiempo
+ipcadi<-decompose(IPC)##para obtener el modelo aditivo 
+plot(ipcadi) ##grafica de la descomposicion 
+##el modelo multiplicativo y aditivo( que da por default R) para descomponer datos
+# en estos casos no debe dar el mismo resultado
+names(ipcadi)##para saber que elementos tiene
+##para descomponer un ST en un modelo multiplicativo
+ipcmult<-decompose(IPC, type = "mult")
+plot(ipcmult)
+
+tendadi<-ipcadi$trend ##asignamos la tendencia l de modelo aditivo
+estaciadi<-ipcadi$seasonal
+estamult<-ipcmult$seasonal#asignamos la estacionalidad del modelo multiplicativo
+ts.plot(cbind(tendadi,tendadi*estaciadi),lty=6:15, col=c(14,56))##lty muestra diferentes tips dlineas 
+
+
+##########________________________________actividad
+#1.-descomponer en modelo aditivo
+#2.-graficarlos
+#3.-extraer la tencia, estacionalidad y aleatoriedad
+#4.-exportarla tendencia y estacionalidad y aleatoriedad en 3 columnas en excel
+#5.-graficar tencencia y tendencia *estacionalidad en R
+
+
+amovil<-ts(read.csv(("C:\\Users\\DANIELA\\Desktop\\amovil.csv"),header = T), frequency = 252,start = 2000)
+##modelo aditivo
+amadi<-decompose(amovil)
+plot(amadi,col=c(12))
+tadi<-amadi$trend ##tendencia del modelo aditivo
+estadi<-amadi$seasonal##estacionalidad del modelo aditivo
+aleadi<-amadi$random
+##grafico
+ts.plot(cbind(tadi,tadi*estadi),lty=7:16, col=c(46,75), main="Modelo aditivo AMERICA MOVIL")
+
+##modelo multiplicativo 
+ammult<-decompose(amovil, type = "mult")
+plot(ammult,col=c(58))
+tmult<-ammult$trend
+estmult<-ammult$seasonal
+alemult<-ammult$random
+##grafico
+ts.plot(cbind(tmult,tmult*estmult),lty=8:20, col=c(58,75), main="Modelo multiplicativo AMERICA MOVIL")
+
+##convertir a data frame 
+aditivo<-data.frame(tadi,estadi,aleadi)
+multiplicativo<-data.frame(tmult,estmult, alemult)
+
+
+###Para crear el libro de Excel
+install.packages("XLConnect")
+require(XLConnect)
+exportar<-loadWorkbook("modelos_aditivo_multiplicativo.xlsx",create=TRUE)
+
+
+#EXPORTAR TABLA 1
+createSheet(exportar, "aditivo")
+createName(exportar,name="aditivo", formula="aditivo!$A$1")
+writeNamedRegion(exportar,aditivo,name = "aditivo")
+#EXPORTAR TABLA 2
+createSheet(exportar, "multiplicativo")
+createName(exportar,name="multiplicativo", formula="multiplicativo!$A$1")
+writeNamedRegion(exportar,multiplicativo,name = "multiplicativo")
+
+#GUARDAD LIBRO EXCEL
+saveWorkbook(exportar)
