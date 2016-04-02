@@ -1,0 +1,47 @@
+###________________TENDENCIA ESTACIONALIDAD Y CICLICO
+install.packages("fpp")
+require(fpp)
+plot(window(elec,start=1980),ylab="GWh",xlab="year", main="Australian electricity")
+#estacionalidad(picos parecidos) y tendencia siempre ascendente
+
+plot(bricksq,ylab="Milion units",xlab="Year",main="Australian clay brick production")
+#ciclico (cambio abrupto, que no son explicables y no se repiten  de iguam forma) estacionalidad y no mucha tendencia
+
+plot(hsales, main="Sales of new one-family houses, USA", ylab="Total sales", xlab="Year")
+#no estacionalidad ni tendencia, posible ciclo
+
+######Ejemplo de graficas de 3 acciones 
+gcarso<-read.csv("C:/Users/DANIELA/Desktop/acciones_gcarso.csv", header=T)
+stgcarso<-ts(gcarso[,5],start=2000,frequency=12)
+plot(stgcarso, main="Acciones Gcarso", ylab="Valor de cierre", xlab="Año")
+seasonplot(stgcarso,year.labels=TRUE,main="Valor acciones Gcarso",ylab="Valor cierre",col=rainbow(20),year.labels.left=TRUE,pch=19)
+#Las acciones de grupo carso muestran tendencia ascendente, sin estacionalidad ni cambios 
+#ciclicos por lo cual es la mejor opcion para compra de acciones, dado el tamaño d ela compañia,
+#la solidez economica de la misma y su importancia en el mercado. 
+
+microsoft<-read.csv("C:/Users/DANIELA/Desktop/acciones_microsoft.csv", header=T)
+stmicrosoft<-ts(microsoft[,5],start=2000,frequency=12)
+plot(stmicrosoft, main="Acciones Microsoft", ylab="Valor de cierre", xlab="Año")
+seasonplot(stmicrosoft,year.labels=TRUE,main="Valor acciones Microsoft",ylab="Valor cierre",col=rainbow(20),year.labels.left=TRUE,pch=19)
+#El comportamiento de las acciones de Microsoft ha tenido multiples cambios por lo que 
+#no podemos decir qu tenga una tendencia, por que para ello tendriasmos que dividir la serie de 
+#tiempo dado que en el año 2000 comenzo teniendo un precio alto pero en 2003 tuvo una 
+#caida de casi 40 unidades y desde entonces gat tratado de mantenerse constante
+#con ligeras varaciones y a partir de 2013 a comensado a tener una tendencia ascendente
+#Debido al cambi abrupto de 2003 podemos caracterizarla como serie ciclica, y a pesar
+#de ser una empresa importante no es posible conseiderarla una buana opcion de compra
+
+cocacola<-read.csv("C:/Users/DANIELA/Desktop/acciones_cocacola.csv", header=T)
+stcoca<-ts(cocacola[,5],start=2000,frequency=12)
+plot(stcoca, main="Acciones Coca-cola", ylab="Valor de cierre", xlab="Año")
+seasonplot(stcoca,year.labels=TRUE,main="Valor acciones Coca cola",ylab="Valor cierre",col=rainbow(20),year.labels.left=TRUE,pch=19)
+
+##El comportamiento de las acciones de Coca cola muestran una tendencia ascendente
+#sin estacionalidad ni comportamientos ciclicos, se podria considerar una buena opcion 
+#para invertir dado el crecimiento constante que ha tenido llegando en 2012 a su precio mas alto 
+#y en ese mismo año bajo el precio pero se hamantenido constante, asi mismo se debe reconocer
+# la solidez economica que tiene esta empresa 
+
+pdf(file="GRAFICAS ACCIONES")
+ts.plot(cbind(stcoca,stmicrosoft,stgcarso), col=c(12,13,35),main="Acciones Gcarso(verde), Microsoft(aqua), Cocacola(azul)", ylab="precio",xlab="Año")
+dev.off()
