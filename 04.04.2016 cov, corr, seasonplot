@@ -1,0 +1,70 @@
+
+######Ejemplo de graficas de 3 acciones 
+gcarso<-read.csv("C:/Users/DANIELA/Desktop/acciones_gcarso.csv", header=T)
+stgcarso<-ts(gcarso[,5],start=2000,frequency=12)
+
+
+microsoft<-read.csv("C:/Users/DANIELA/Desktop/acciones_microsoft.csv", header=T)
+stmicrosoft<-ts(microsoft[,5],start=2000,frequency=12)
+
+
+cocacola<-read.csv("C:/Users/DANIELA/Desktop/acciones_cocacola.csv", header=T)
+stcoca<-ts(cocacola[,5],start=2000,frequency=12)
+
+
+
+
+#__________________covarianza 04/04/2016
+help(window)
+###cortamos la series para estandarizar y que tengas el mismo numero de datos 
+  w<-window(stcoca,start = 2000,end=2005)
+  y<-window(stgcarso,start=2000,end=2005)
+  w3<-window(stmicrosoft,start=2000,end=2005)
+  n<-length(w)## numero de datos de w
+covar1=sum(((w)-mean(w))*(y-mean(y)))/(n-1)
+cov(w,y)##funcion de r para covarianza
+correlacion<-cov(w,y)/(sd(w)*sd(y))
+cor(w,y)### funcion de r para obtener correlacion
+
+
+###________________________________EJERCICIO 
+##1.- ANALIZAR LOS AÑOS DE LAS 3 EMPRESAS ELEGIDAS (SEASONPLOT) Y ELEGIR LOS TRES AÑOS QUE UBIQUEN
+#ESTACIONALIDAD, CICLO O TENDENCIA
+
+seasonplot(stmicrosoft, S=12,year.labels=TRUE,main="Valor acciones Microsoft",ylab="Valor cierre",col=rainbow(20),year.labels.left=TRUE,pch=19)  
+#Para la empresa microsoft  el año 2000 es el que presenta ciclos o cambios abrutos entre 
+#el mes de julio y semptiembre teneindo un precionde 65 y cayendo hasta 45 respectivamente.
+#mie,ntras que en los demas años se muestra una tendencia constante y sin cambios principalmente 
+#en 2007,2008,2009,2010,2011,2012
+
+seasonplot(stcoca,s=12,year.labels=TRUE,main="Valor acciones Coca cola",ylab="Valor cierre",col=rainbow(20),year.labels.left=TRUE,pch=19)
+#las acciones de coca cola han tenido una tendencia constante a traves de cada año, sin embargo,
+#tambien cada año el precio de estas acciones ha incrementado. teniendo ausencia de estacionalidad o 
+#ciclicidad
+
+seasonplot(stgcarso, S=12,year.labels=TRUE,main="Valor de acciones Gcarso",ylab="Valor cierre",col=rainbow(20),year.labels.left=TRUE,pch=19)
+#las acciones de Gcarso han tenido una tendencia ascendente en los ultimos 3 años(2012-2015), 
+#mientras que de 2000 a 2007 han tenido una tendencia constante a traves de ecada año
+#no muestra efectos de estacionalidad o de ciclicos
+
+###cortamos la series para estandarizar y que tengas el mismo numero de datos 
+x<-window(stcoca,start = 2000,end=2005)
+y<-window(stgcarso,start=2000,end=2005)
+z<-window(stmicrosoft,start=2000,end=2005)
+
+n<-length(w)## numero de datos de w
+covar1=sum(((x)-mean(x))*(y-mean(y)))/(n-1)
+cov(x,y)##funcion de r para covarianza
+correlacion<-cov(x,y)/(sd(x)*sd(y))
+cor(x,y)### funcion de r para obtener correlacion
+
+covar2=sum(((z)-mean(z))*(x-mean(x)))/(n-1)
+cov(z,x)##funcion de r para covarianza
+correlacion2<-cov(z,x)/(sd(z)*sd(x))
+cor(z,x)### funcion de r para obtener correlacion
+
+covar3=sum(((y)-mean(y))*(z-mean(z)))/(n-1)
+cov(y,z)##funcion de r para covarianza
+correlacion3<-cov(y,z)/(sd(y)*sd(z))
+cor(y,z)### funcion de r para obtener correlacion
+
