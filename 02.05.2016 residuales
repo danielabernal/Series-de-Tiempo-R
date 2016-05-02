@@ -1,0 +1,43 @@
+install.packages("foreign")
+require(foreign)
+pib<-read.csv("C:\\Users\\DANIELA\\Documents\\actuaria\\8\\series de tiempo\\pib1960.csv", header= TRUE)
+pibts<-ts( pib[,2],start=1960, frequency=1)
+plot(pibts)
+View(pibts)
+require(fpp)
+res<-residuals(snaive(pibts))
+plot(res,main= "Grafica de los residuales") #para saber si la varianza es constante
+Acf(res, main="ACF de residuales") #para saber si hay o no correlacion  
+hist(res, nclass = "FD", main = "Histograma de residuales")# para conocer si los residuos se distribuyen normal 
+
+res2<-residuals(rwf(pibts,drift=T))
+plot(res2,main= "Grafica de los residuales") #para saber si la varianza es constante
+Acf(res2, main="ACF de residuales")#para saber si hay o no correlacion  
+hist(res2,nclass = "FD", main = "Histograma de residuales")# para conocer si los residuos se distribuyen normal 
+
+
+res3<-residuals(meanf(pibts))
+plot(res3,main= "Grafica de los residuales") #para saber si la varianza es constante
+Acf(res3, main="ACF de residuales")#para saber si hay o no correlacion  
+hist(res3, nclass = "FD", main = "Histograma de residuales")# para conocer si los residuos se distribuyen normal 
+
+
+#prueba box-pierce
+Box.test(res,lag = 10,fitdf = 0)
+#prueba Box ljung
+Box.test(res,lag = 10,fitdf=0, type="Lj")
+
+#prueba box-pierce
+Box.test(res2,lag = 10,fitdf = 0)
+#prueba Box ljung
+Box.test(res2,lag = 10,fitdf=0, type="Lj") ##fitdf parametros 
+
+#prueba box-pierce
+Box.test(res3,lag = 10,fitdf = 0)
+#prueba Box ljung
+Box.test(res3,lag = 10,fitdf=0, type="Lj") ##fitdf parametros
+
+
+#p value mayor a .05 para que no se rechace l hipotesis nula, con un alto grado de certez<
+#las correlaciones de nuestros residuales, por lo tanto son aleatorios e independientes
+
