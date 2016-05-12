@@ -1,0 +1,85 @@
+require(foreign)
+pib<-read.csv("C:\\Users\\DANIELA\\Documents\\actuaria\\8\\series de tiempo\\pib1960.csv", header= TRUE)
+pibts<-ts( pib[,2],start=1960, frequency=1)
+
+require (forecast)
+require (fpp)
+mod1<-ses(pibts, alpha = 0.2, initial="simple", h=4)## definir el modelo h=periodos
+mod2<-ses(pibts, alpha = 0.6, initial="simple", h=4)
+mod3<-ses(pibts, alpha = 1, initial="simple", h=4)
+plot(mod1, plot.conf=FALSE, ylab="PIB", xlab="Año", main="", fcol="white", type="o")
+###graficamos los ajustes
+lines(fitted(mod1), col="blue", type="o")
+lines(fitted(mod2), col="pink", type="o")
+lines(fitted(mod3), col="green", type="o")
+
+mae(mod1)
+lines(mod1$mean, col="blue", type="o")
+lines(mod2$mean, col="pink", type="o")
+lines(mod3$mean, col="green", type="o")
+legend("topleft", lty = 1, col=c(1,"blue","pink","green"), c("data", expression(alpha==.2),
+            expression (alpha==1)), pch=1)
+ajus1<-mod1$fitted
+ajus2<-mod2$fitted
+ajus3<-mod3$fitted
+resmod1<-(pibts-ajus1)
+resmod2<-(pibts-ajus2)
+resmod3<-(pibts-ajus3)
+mod123<-data.frame(pibts, ajus1,ajus2,ajus3,resmod1,resmod2,resmod3)
+View(mod123)
+## estas restas deben de dar cero 
+res1<-(resmod1-mod1$residuals)
+res2<-(resmod1-mod2$residuals)
+res3<-(resmod1-mod3$residuals)
+####ejercicio#################################################################################################################3
+#elegir 2 series de tiempo sin tendencia ni estaconalidad 
+#serie 21  alpha=.1,.6 y .9
+#serie2 alpha.0001, .5, .987
+#graficar las series de tiempo, clacular el mae, rmse, mape y sse
+#decidir en cad una de ls series cuales ocuprian, argumenten pq uds creen
+#que ees mejor utilizar un alpha cercano a cero o a uno 
+#script subirlo a github y la argumentacion y grafica a word
+
+
+tasas<-read.csv("C:\\Users\\DANIELA\\Documents\\actuaria\\8\\series de tiempo\\tasas.csv", header= TRUE)
+tosi1<-ts( tasas[,8],start=2005, frequency=4)
+tsubo<-ts( tasas[,6],start=2005, frequency=4)
+
+require (forecast)
+require (fpp)
+tosi1mod1<-ses(tosi1, alpha = 0.1, initial="simple", h=4)## definir el modelo h=periodos
+tosi1mod2<-ses(tosi1, alpha = 0.6, initial="simple", h=4)
+tosi1mod3<-ses(tosi1, alpha = .9, initial="simple", h=4)
+
+plot(tosi1mod1, plot.conf=FALSE, ylab="tosi1", xlab="Año", main="", fcol="white", type="o")
+###graficamos los ajustes
+lines(fitted(tosi1mod1), col="blue", type="o")
+lines(fitted(tosi1mod2), col="red", type="o")
+lines(fitted(tosi1mod3), col="green", type="o")
+legend("topleft", lty = 1, col=c(1,"blue","red","green"), c("data", expression(alpha==.1),
+     expression (alpha==.6),expression (alpha==.9)), pch=1)
+
+eval1<-accuracy (tosi1mod1)
+eval2<-accuracy (tosi1mod2)
+eval3<-accuracy (tosi1mod3)
+
+eval<-data.frame(eval1, eval2, eval3)
+
+
+tsubomod1<-ses(tsubo, alpha = 0.0001, initial="simple", h=4)## definir el modelo h=periodos
+tsubomod2<-ses(tsubo, alpha = 0.5, initial="simple", h=4)
+tsubomod3<-ses(tsubo, alpha = .987, initial="simple", h=4)
+
+plot(tsubomod1, plot.conf=FALSE, ylab="tsubo", xlab="Año", main="", fcol="white", type="o")
+###graficamos los ajustes
+lines(fitted(tsubomod1), col="blue", type="o")
+lines(fitted(tsubomod2), col="red", type="o")
+lines(fitted(tsubomod3), col="green", type="o")
+legend("topleft", lty = 1, col=c(1,"blue","red","green"), c("data", expression(alpha==.0001),
+                                                            expression (alpha==.5),expression (alpha==.987)), pch=1)
+
+val1<-accuracy (tsubomod1)
+val2<-accuracy (tsubomod2)
+val3<-accuracy (tsubomod3)
+
+val<-data.frame(val1, val2, val3)
