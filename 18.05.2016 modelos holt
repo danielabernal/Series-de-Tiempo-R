@@ -1,0 +1,57 @@
+require(foreign)
+#tendencia negativa, defunciones por homicidio en menores de un año 
+homicidios<-read.csv("C:\\Users\\DANIELA\\Documents\\actuaria\\8\\series de tiempo\\homiciosbebes.csv", header= TRUE)
+homicidios<-ts( homicidios,start=1990, frequency = 1)
+
+require (forecast)
+require (fpp)
+#holt lineal 
+holtlineal<-holt(homicidios, alpha = .3,beta=.1, initial = "simple", h=4)
+#holt exponencial
+holtexponencial<-holt(homicidios, alpha = .3,beta = .1, initial = "simple", exponential = T, h=4)
+#aditivo amotiguado
+holtamorti1<-holt(homicidios, damped = T, alpha=.3, beta=.1, gamma=.5)
+#multiplicativo amortiguado
+holtamorti2<-holt(homicidios, exponential = T,damped=T, alpha=.3, beta=.1, gamma=.5)
+
+plot(holtlineal, plot.conf=FALSE, ylab="Homicidios en menores de 1 año", xlab="Año", main="Homicidios de bebes", fcol="white", type="o")
+###graficamos los ajustes
+lines(fitted(holtlineal), col="blue", type="o")
+lines(fitted(holtexponencial), col="red", type="o")
+lines(fitted(holtamorti1), col="green", type="o")
+lines(fitted(holtamorti2), col="orange", type="o")
+legend("bottomleft", lty = 1, col=c(1,"blue","red","green", "orange"), c("data","h.lineal" ,"h. exponencial",
+            "h. amor.aditivo","h. amor.multiplicativo"), pch=1)
+ 
+accuracy(holtexponencial)
+accuracy(holtamorti1)
+accuracy(holtamorti2)
+
+## TENDENCIA POSITIVA cotizaciond e acciones de ALFAA
+acciones<-read.csv("C:\\Users\\DANIELA\\Documents\\actuaria\\8\\series de tiempo\\5accionesproyec.csv", header= TRUE)
+alfaa<-ts(acciones [,4], start=2002, frequency=4)
+
+require (forecast)
+require (fpp)
+#holt lineal 
+aholtlineal<-holt(alfaa, alpha = .3,beta=.1, initial = "simple", h=4)
+#holt exponencial
+aholtexponencial<-holt(alfaa, alpha = .3,beta = .1, initial = "simple", exponential = T, h=4)
+#aditivo amotiguado
+aholtamorti1<-holt(alfaa, damped = T, alpha=.3, beta=.1, gamma=.5)
+#multiplicativo amortiguado
+aholtamorti2<-holt(alfaa, exponential = T,damped=T, alpha=.3, beta=.1, gamma=.5)
+
+plot(aholtlineal, plot.conf=FALSE, ylab="Precio", xlab="Año", main="Precios de de acciones alfaa", fcol="white", type="o")
+###graficamos los ajustes
+lines(fitted(aholtlineal), col="blue", type="o")
+lines(fitted(aholtexponencial), col="red", type="o")
+lines(fitted(aholtamorti1), col="green", type="o")
+lines(fitted(aholtamorti2), col="orange", type="o")
+legend("bottomright", lty = 1, col=c(1,"blue","red","green", "orange"), c("data","h.lineal" ,"h. exponencial",
+                                                                         "h. amor.aditivo","h. amor.multiplicativo"), pch=1)
+
+accuracy(aholtlineal)
+accuracy(aholtexponencial)
+accuracy(aholtamorti1)
+accuracy(aholtamorti2)
