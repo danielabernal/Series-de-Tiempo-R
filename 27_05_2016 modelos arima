@@ -1,0 +1,31 @@
+acciones<-read.csv("C:\\Users\\DANIELA\\Documents\\actuaria\\8\\series de tiempo\\5accionesmyec.csv", header= TRUE)
+alfaa<-ts(acciones [,4], start=2002, frequency=4)
+plot (alfaa)
+require (fpp)
+##modelos
+e1<-auto.arima(alfaa,seasonal=FALSE)
+e2<-arima(alfaa,order=c(2,1,0))
+e3<-arima(alfaa,order=c(0,1,1))
+##generamos mnosticos
+m1<-forecast(e1,h=4)
+m2<-forecast(e2,h=4)
+m3<-forecast(e3,h=4)
+### grafica de los valores reales y los ajustados
+plot(m1, plot.conf=FALSE, ylab="precio", xlab="Año", main="", fcol="white", type="o")
+lines(fitted(m1), col="blue", type="o")
+lines(fitted(m2), col="red", type="o")
+lines(fitted(e3), col="green", type="o")
+legend("topleft", lty = 1, col=c(1,"blue","red","green"), c("data",expression(pronostico1), expression(pronostico2),
+ expression(pronostico3)),pch=1)
+
+#grafica de los valores reales, ajustados y pronosticos 
+plot(m2, plot.conf=FALSE,ylim=(0,20), ylab="precio alfaa",xlab="año", main="", fcol="white", type="o")
+    lines(fitted(m2), col="red", type="o")
+    lines(fitted(m3), col="green", type="o")
+     lines(m1$mean, col="blue", type="o")
+    lines(m2$mean, col="red", type="o")
+    lines(m3$mean, col="green", type="o")
+    legend("topleft",lty=1, col=c(1,"blue","red","green"), 
+     c("data", expression(pronostico1), expression(pronostico2),
+     expression(pronostico3)),pch=1)
+    
